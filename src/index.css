@@ -1,0 +1,56 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+footer {
+  position: fixed;
+  bottom: 0px;
+  color: gray;
+  background-color: black;
+}
+
+.media {
+  width: 24px;
+  height: 24px;
+  margin-right: 5px;
+}
+
+.navigate-icon {
+  margin-right: 5px;
+}
+
+@font-face {
+  font-family: "Quicksand";
+  src: url("./assets/fonts/Quicksand/Quicksand-VariableFont_wght.ttf")
+    format("truetype");
+  font-weight: normal;
+  font-style: bold;
+}
+
+.tutorialdetail-title-color {
+  font-family: "Quicksand";
+  color: rgb(66, 160, 129);
+}
+
+.tutorialdetail-filename-color {
+  font-family: "Quicksand";
+  color: rgb(160, 66, 125);
+}
+
+.modalDialog {
+  background-color: lightgray;
+}
+
+.formik {
+  color: bisque;
+}

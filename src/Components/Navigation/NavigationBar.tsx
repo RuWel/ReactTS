@@ -1,0 +1,115 @@
+import React from "react";
+import { Container, Row } from "react-bootstrap";
+import { Outlet } from "react-router-dom";
+import NavigationGroup from "./NavigationGroup";
+import Pages from "../../enum/Pages";
+import Views from "../../enum/Views";
+import DisplayGroup from "./DisplayGroup";
+import SearchGroup from "./SearchGroup";
+import Actions from "../../enum/Actions";
+import ActionGroup from "./ActionGroup";
+
+const NavigationBar = ({
+  tutorials,
+  currentPage,
+  currentView,
+  searchTutorialId,
+  navigateToPage,
+  handleChangeView,
+  findTutorialById,
+  existsNonPublishedTutorials,
+  deleteAllTutorialsInView,
+  publishAllTutorialsInView,
+}: {
+  tutorials: ITutorial[];
+  currentPage: string;
+  currentView: string;
+  searchTutorialId: number | null;
+  navigateToPage(page: string): void;
+  handleChangeView(page: string): void;
+  findTutorialById(id: string): void;
+  existsNonPublishedTutorials: boolean;
+  deleteAllTutorialsInView(): Promise<void>;
+  publishAllTutorialsInView(): Promise<void>;
+}) => {
+  tutorials = tutorials ? tutorials : [];
+
+  return (
+    <header>
+      <Container fluid>
+        <Row>
+          <NavigationGroup
+            pages={[Pages.Home, Pages.Create, Pages.Find]}
+            currentPage={currentPage}
+            navigateToPage={navigateToPage}
+          />
+
+          <DisplayGroup
+            views={[Views.AllPub, Views.NonPub, Views.All]}
+            currentView={currentView}
+            disabled={
+              currentPage === Pages.Create || currentPage === Pages.Find
+            }
+            handleChangeView={handleChangeView}
+          />
+
+          <SearchGroup
+            disabled={
+              tutorials.length === 0 ||
+              currentPage === Pages.Create ||
+              currentPage === Pages.Find
+            }
+            searchTutorialId={searchTutorialId}
+            findTutorialById={findTutorialById}
+          />
+
+          <ActionGroup
+            actions={[Actions.DeleteAll, Actions.PublishAll]}
+            disabled={
+              currentPage === Pages.Create ||
+              currentPage === Pages.Find ||
+              !existsNonPublishedTutorials
+            }
+            deleteAllTutorialsInView={deleteAllTutorialsInView}
+            publishAllTutorialsInView={publishAllTutorialsInView}
+          />
+        </Row>
+      </Container>
+      <Outlet />
+    </header>
+  );
+};
+
+export default NavigationBar;
+
+// const NavigationBar = () => {
+//   return (
+//     <>
+//       <header>
+//         <Container fluid>
+//           <Row>
+//             <NavigationGroup pages={[Pages.Home, Pages.Create, Pages.Find]} />
+//           </Row>
+//         </Container>
+//       </header>
+
+//       {/* <nav>
+//         <ul>
+//           <li>
+//             <Link to="/">Home</Link>
+//           </li>
+//           <li>
+//             <Link to="/create">Create</Link>
+//           </li>
+//           <li>
+//             <Link to="/find">Find</Link>
+//           </li>
+//         </ul>
+//       </nav> */}
+
+//       <Outlet />
+//     </>
+//   );
+// };
+
+// export default NavigationBar;
