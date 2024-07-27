@@ -8,6 +8,8 @@ import DisplayGroup from "./DisplayGroup";
 import SearchGroup from "./SearchGroup";
 import Actions from "../../enum/Actions";
 import ActionGroup from "./ActionGroup";
+import { log } from "../../Logging/Logger";
+import LogLevel from "../../enum/LogLevel";
 
 const NavigationBar = ({
   tutorials,
@@ -34,6 +36,11 @@ const NavigationBar = ({
 }) => {
   tutorials = tutorials ? tutorials : [];
 
+  log(
+    "TutorialsList",
+    `Tutorials to display = ${JSON.stringify(tutorials)}`,
+    LogLevel.Debug
+  );
   return (
     <header>
       <Container fluid>

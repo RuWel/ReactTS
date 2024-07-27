@@ -19,18 +19,6 @@ const NavigationGroup = ({
       navigateToPage={navigateToPage}
     />
   ));
-  // return (
-  //   <>
-  //     {pages.map((page: string) => (
-  //       <NavigationButton
-  //         key={page}
-  //         page={page}
-  //         currentPage={currentPage}
-  //         routeTo={routeTo}
-  //       />
-  //     ))}
-  //   </>
-  // );
 };
 
 export default NavigationGroup;

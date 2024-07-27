@@ -17,6 +17,8 @@ import {
   FaTrashAlt,
 } from "react-icons/fa";
 import Pages from "../../enum/Pages";
+import LogLevel from "../../enum/LogLevel";
+import { log } from "../../Logging/Logger";
 
 const TutorialDetail = ({
   tutorial,
@@ -26,11 +28,17 @@ const TutorialDetail = ({
   navigateToPage,
 }: {
   tutorial: ITutorial;
-  deleteTutorialById(id: number): Promise<void>;
-  publishTutorialById(id: number): Promise<void>;
+  deleteTutorialById(id: number): Promise<boolean>;
+  publishTutorialById(id: number): Promise<boolean>;
   selectTutorialForUpdate(tutorial: ITutorial): void;
   navigateToPage(page: string): void;
 }) => {
+  log(
+    "TutorialDetail",
+    `Tutorial = ${JSON.stringify(tutorial)}`,
+    LogLevel.Debug
+  );
+
   return (
     <>
       <Row>

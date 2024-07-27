@@ -2,6 +2,8 @@ import React from "react";
 import Actions from "../../enum/Actions";
 import { ButtonGroup, Col } from "react-bootstrap";
 import ActionButton from "./ActionButton";
+import { log } from "../../Logging/Logger";
+import LogLevel from "../../enum/LogLevel";
 
 const ActionGroup = ({
   actions,
@@ -16,8 +18,10 @@ const ActionGroup = ({
 }) => {
   const handleActionClick = (action: any): void => {
     if (action === Actions.PublishAll) {
+      log("ActionGroup", `Publishing all displayed tutorials`, LogLevel.Debug);
       publishAllTutorialsInView();
     } else {
+      log("ActionGroup", `Deleting all displayed tutorials`, LogLevel.Debug);
       deleteAllTutorialsInView();
     }
   };

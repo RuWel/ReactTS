@@ -1,5 +1,7 @@
 import React from "react";
 import { Button } from "react-bootstrap";
+import { log } from "../../Logging/Logger";
+import LogLevel from "../../enum/LogLevel";
 
 const ActionButton = ({
   action,
@@ -10,6 +12,12 @@ const ActionButton = ({
   disabled: boolean;
   handleActionClick(action: any): void;
 }) => {
+  log(
+    "ActionButton",
+    `Button = ${action}, disabled = ${disabled}`,
+    LogLevel.Debug
+  );
+
   return (
     <>
       <Button

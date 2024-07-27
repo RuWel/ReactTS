@@ -4,9 +4,20 @@ let data: BlobPart[] = [];
 let isAdded = false;
 let isActive = false;
 
-const log = (message: string, level: string = "INFO") => {
+const log = (
+  module: string | null,
+  message: string,
+  level: string = "INFO"
+) => {
   if (isActive) {
-    let info = new Date().toLocaleString() + " : <" + level + "> : " + message;
+    let moduleInfo: string = `[${module ? module : "general"}]::`;
+    let info =
+      moduleInfo +
+      new Date().toLocaleString() +
+      " : <" +
+      level +
+      "> : " +
+      message;
 
     const blob = new Blob([info + "\n"], { type: "text/plain" });
     data.push(blob);
@@ -37,7 +48,7 @@ const clear = () => {
 };
 
 const Logger = ({ active, timeout }: { active: boolean; timeout: number }) => {
-  clear();
+  //  clear();
 
   isActive = active;
 
@@ -46,7 +57,7 @@ const Logger = ({ active, timeout }: { active: boolean; timeout: number }) => {
   useEffect(() => {
     if (isActive) {
       const timeoutId = setTimeout(() => {
-        if (count == 9) {
+        if (count === 9) {
           setCount(count + 1);
         } else {
           setCount(count + 1);

@@ -1,10 +1,10 @@
 import axios from "axios";
 
-import configData from "../tutorial_env.json";
+import configData from "../../tutorial_env.json";
 
 import dummyData from "./DummyData/DummyData";
-import { log } from "../Logging/Logger";
-import LogLevel from "../enum/LogLevel";
+import { log, Logger } from "../../Logging/Logger";
+import LogLevel from "../../enum/LogLevel";
 
 const useServer = true;
 
@@ -26,7 +26,7 @@ const getAllTutorials = async (): Promise<ITutorial[] | null> => {
 
   if (isActive) {
     await apiClient
-      .get("/tutorials")
+      .get("/tutorials/load")
       .then((response) => (data = response.data))
       .catch((err) => {
         data = null;
@@ -48,6 +48,45 @@ const deleteAllTutorials = async (): Promise<boolean> => {
       .catch((err) =>
         log(`API deleteAllTutorials:  > ${err.message}`, LogLevel.Error)
       );
+  }
+
+  return result;
+};
+
+const buildArgs = (ids: (Number | undefined)[]): string => {
+  let result: string = "";
+
+  for (let id in ids) {
+    result += `id${id}=${ids[id]!.toString()}`;
+    if (Number.parseInt(id) < ids.length - 1) {
+      result += "&";
+    }
+  }
+
+  return result;
+};
+
+const deleteTutorialsByIds = async (
+  ids: (Number | undefined)[]
+): Promise<boolean> => {
+  let result: boolean = false;
+
+  let args: string = buildArgs(ids);
+
+  log("API", `ARGS = ${args}`, LogLevel.Debug);
+
+  if (args) {
+    if (isActive) {
+      await apiClient
+        .delete(`/tutorials/delete/ids?${args}`)
+        .then((response) => (result = true))
+        .catch((err) =>
+          log(
+            `API deleteTutorialsByIds: ids = ${ids} > ${err.message}`,
+            LogLevel.Error
+          )
+        );
+    }
   }
 
   return result;
@@ -89,7 +128,7 @@ const publishTutorialById = async (id: number): Promise<boolean> => {
 
   if (isActive) {
     await apiClient
-      .put(`/tutorials/publish/${id}`)
+      .put(`/tutorial/publish/${id}`)
       .then((response) => (result = true))
       .catch((err) =>
         log(
@@ -97,6 +136,32 @@ const publishTutorialById = async (id: number): Promise<boolean> => {
           LogLevel.Error
         )
       );
+  }
+
+  return result;
+};
+
+const publishTutorialsByIds = async (
+  ids: (Number | undefined)[]
+): Promise<boolean> => {
+  let result: boolean = false;
+
+  let args: string = buildArgs(ids);
+
+  log("API", `ARGS = ${args}`, LogLevel.Debug);
+
+  if (args) {
+    if (isActive) {
+      await apiClient
+        .put(`/tutorials/publish/ids?${args}`)
+        .then((response) => (result = true))
+        .catch((err) =>
+          log(
+            `API publishTutorialsByIds: ids = ${ids} > ${err.message}`,
+            LogLevel.Error
+          )
+        );
+    }
   }
 
   return result;
@@ -117,7 +182,7 @@ const createTutorial = async (
 
   if (isActive) {
     await apiClient
-      .post("/tutorials", data, {
+      .post("/tutorial/create", data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -150,7 +215,7 @@ const updateTutorialWithFile = async (
 
   if (isActive) {
     await apiClient
-      .put(`/tutorials/file/${tutorial.id}`, data, {
+      .put(`/tutorial/update/file/${tutorial.id}`, data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -169,7 +234,7 @@ const updateTutorial = async (tutorial: ITutorial): Promise<boolean> => {
 
   if (isActive) {
     await apiClient
-      .put(`tutorials/${tutorial.id}`, tutorial)
+      .put(`tutorial/update/${tutorial.id}`, tutorial)
       .then((response) => (result = true))
       .catch((err) =>
         log(`API updateTutorial > ${err.message}`, LogLevel.Error)
@@ -183,8 +248,10 @@ export {
   getAllTutorials,
   deleteAllTutorials,
   deleteTutorialById,
+  deleteTutorialsByIds,
   publishAllTutorials,
   publishTutorialById,
+  publishTutorialsByIds,
   createTutorial,
   updateTutorialWithFile,
   updateTutorial,

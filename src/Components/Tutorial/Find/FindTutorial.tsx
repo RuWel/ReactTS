@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Badge, Button, InputGroup } from "react-bootstrap";
 import { FaTrashAlt } from "react-icons/fa";
 import Pages from "../../../enum/Pages";
+import { log } from "../../../Logging/Logger";
+import LogLevel from "../../../enum/LogLevel";
 
 const FindTutorial = ({
   navigateToPage,
@@ -32,6 +34,7 @@ const FindTutorial = ({
   };
 
   const handleAddKeyword = (): void => {
+    log("FindTutorial", `Adding new keyword placeholder`, LogLevel.Debug);
     if (keywords.length === 0 || isValid()) {
       const nextId = getMaxIdValue() + 1;
       if (keywords.length < 5) {
@@ -46,7 +49,13 @@ const FindTutorial = ({
   };
 
   const handleRemoveKeyword = (id: number): void => {
+    log("FindTutorial", `Removing keyword ${id}`, LogLevel.Debug);
     const keywordsAfterRemove = keywords.filter((keyword) => keyword.id !== id);
+    log(
+      "FindTutorial",
+      `Remaining keywords ${JSON.stringify(keywordsAfterRemove)}`,
+      LogLevel.Debug
+    );
     setKeywords(keywordsAfterRemove);
   };
 
@@ -54,6 +63,11 @@ const FindTutorial = ({
     e.preventDefault();
     const value = e.target.value;
     if (value.trim().length > 0) {
+      log(
+        "FindTutorial",
+        `Add keyword ${value.trim().length}}`,
+        LogLevel.Debug
+      );
       const keywordsArray = keywords.map((keyword) =>
         keyword.id === _keyword.id ? { ...keyword, content: value } : keyword
       );

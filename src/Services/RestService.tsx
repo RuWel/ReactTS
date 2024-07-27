@@ -2,12 +2,14 @@ import {
   createTutorial,
   deleteAllTutorials,
   deleteTutorialById,
+  deleteTutorialsByIds,
   getAllTutorials,
   publishAllTutorials,
   publishTutorialById,
+  publishTutorialsByIds,
   updateTutorial,
   updateTutorialWithFile,
-} from "../Api";
+} from "./Api/Api";
 
 const getAllTutorialsREST = async (): Promise<ITutorial[] | null> => {
   const response: ITutorial[] | null = await getAllTutorials();
@@ -45,6 +47,12 @@ const deleteTutorialByIdREST = async (id: number): Promise<boolean> => {
   return await deleteTutorialById(id);
 };
 
+const deleteTutorialsByIdsREST = async (
+  ids: (number | undefined)[]
+): Promise<boolean> => {
+  return await deleteTutorialsByIds(ids);
+};
+
 const publishAllTutorialsREST = async (): Promise<boolean> => {
   return await publishAllTutorials();
 };
@@ -53,12 +61,20 @@ const publishTutorialByIdREST = async (id: number): Promise<boolean> => {
   return await publishTutorialById(id);
 };
 
+const publishTutorialsByIdsREST = async (
+  ids: (number | undefined)[]
+): Promise<boolean> => {
+  return await publishTutorialsByIds(ids);
+};
+
 export {
   getAllTutorialsREST,
   deleteAllTutorialsREST,
   deleteTutorialByIdREST,
+  deleteTutorialsByIdsREST,
   publishAllTutorialsREST,
   publishTutorialByIdREST,
+  publishTutorialsByIdsREST,
   createTutorialWithFileREST,
   updateTutorialREST,
 };

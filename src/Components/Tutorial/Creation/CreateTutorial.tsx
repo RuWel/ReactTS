@@ -6,6 +6,8 @@ import * as formik from "formik";
 import * as yup from "yup";
 
 import Pages from "../../../enum/Pages";
+import { log } from "../../../Logging/Logger";
+import LogLevel from "../../../enum/LogLevel";
 
 const CreateTutorial = ({
   isUpdateMode,
@@ -18,6 +20,18 @@ const CreateTutorial = ({
   navigateToPage(page: string): void;
   handleCreateOrUpdateTutorial(values: ICreateFormValue, file: File): void;
 }) => {
+  log("CreateTutorial", `Update mode = ${isUpdateMode}`, LogLevel.Debug);
+
+  if (isUpdateMode) {
+    log(
+      "CreateTutorial",
+      `Tutorial selected for update = ${JSON.stringify(
+        selectedTutorialForUpdate
+      )}`,
+      LogLevel.Debug
+    );
+  }
+
   const { Formik } = formik;
 
   const file = useRef<any>(null);
@@ -41,7 +55,11 @@ const CreateTutorial = ({
     let result: string | undefined = "";
 
     if (filename) {
+      log("CreateTutorial", `Refactor filename = ${filename}`, LogLevel.Debug);
+
       result = filename.split("\\").pop()!.split("/").pop();
+
+      log("CreateTutorial", `Refactored filename = ${result}`, LogLevel.Debug);
     }
 
     return result;

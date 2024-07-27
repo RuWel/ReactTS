@@ -11,16 +11,16 @@ import Pages from "../../enum/Pages";
 import ModalDialog from "../Dialog/ModalDialog";
 import {
   createTutorialWithFileREST,
-  deleteAllTutorialsREST,
   deleteTutorialByIdREST,
+  deleteTutorialsByIdsREST,
   getAllTutorialsREST,
-  publishAllTutorialsREST,
   publishTutorialByIdREST,
+  publishTutorialsByIdsREST,
   updateTutorialREST,
-} from "../../Api/Services/RestService";
+} from "../../Services/RestService";
 import { log } from "../../Logging/Logger";
 import LogLevel from "../../enum/LogLevel";
-import { dialogInfo } from "../../enum/Dialogs";
+import { DialogIds, dialogInfo } from "../../enum/Dialogs";
 
 const Tutorial = () => {
   const navigate = useNavigate();
@@ -28,19 +28,31 @@ const Tutorial = () => {
 
   const tutorials = useRef<ITutorial[]>();
   const [viewTutorials, setViewTutorials] = useState<ITutorial[]>();
+  const paginatedTutorials = useRef<ITutorial[]>();
+
+  const setPaginatedTutorials = (tutorials: ITutorial[]): void => {
+    log("Tutorial", "set Paginated Tutorials to", LogLevel.Debug);
+
+    for (let tutorial of tutorials) {
+      log("Tutorial", `Paginated Tutorials ID = ${tutorial.id}`);
+    }
+
+    paginatedTutorials.current = tutorials;
+  };
 
   const [currentPage, setCurrentPage] = useState<string>(Pages.Home);
   const navigateToPage = (page: string): void => {
+    log("Tutorial", `Navigate to new page = ${page}`);
     if (page === Pages.Create) {
-      log(`UPDATE MODE = false`);
+      log("Tutorial", `Update mode = false`);
       setUpdateMode(false);
     } else if (page === Pages.Update) {
       page = Pages.Create;
-      log(`UPDATE MODE = true`);
+      log("Tutorial", `Update mode = true`);
       setUpdateMode(true);
     }
 
-    log(`NAVIGATE TO ${page}`);
+    log("Tutorial", `Navigate to ${page}`);
     navigate(`/${page}`);
 
     setCurrentPage(page);
@@ -50,23 +62,23 @@ const Tutorial = () => {
 
   const [currentView, setCurrentView] = useState<string>(Views.All);
   const changeView = (view: string) => {
-    log(`CHANGE VIEW TO ${view}`);
+    log("Tutorial", `Change view to ${view}`);
     setCurrentView(view);
 
     if (view === Views.All) {
-      log("ViewTutorials = All");
+      log("Tutorial", "ViewTutorials = All");
       setViewTutorials(tutorials.current);
     } else if (view === Views.AllPub) {
       const _tutorials = tutorials.current!.filter(
         (tutorial) => tutorial.published
       );
-      log("ViewTutorials = All Published");
+      log("Tutorial", "ViewTutorials = All Published");
       setViewTutorials(_tutorials);
     } else if (view === Views.NonPub) {
       const _tutorials = tutorials.current!.filter(
         (tutorial) => !tutorial.published
       );
-      log("ViewTutorials = All Non Published");
+      log("Tutorial", "ViewTutorials = All Non Published");
       setViewTutorials(_tutorials);
     } else if (view === Views.Search) {
       if (searchTutorialId) {
@@ -76,7 +88,7 @@ const Tutorial = () => {
             .trim()
             .includes(searchTutorialId.current);
         });
-        log("ViewTutorials = Search By Id");
+        log("Tutorial", "ViewTutorials = Search By Id");
         setViewTutorials(_tutorials);
       }
     }
@@ -87,22 +99,33 @@ const Tutorial = () => {
   const selectedTutorialForUpdate = useRef<ITutorial | any>(null);
 
   const selectTutorialForUpdate = (tutorial: ITutorial): void => {
+    log(
+      "Tutorial",
+      `Selected tutorial for update = ${JSON.stringify(tutorial)}`
+    );
     selectedTutorialForUpdate.current = tutorial;
   };
 
-  const showTutorialDialog = (dialogId: string): void => {
+  const showTutorialDialog = (
+    dialogId: string,
+    alternate: string = ""
+  ): void => {
+    log("Tutorial", `Show Dialog ${dialogId}`, LogLevel.Debug);
     const data = dialogInfo.filter((info) => info.id === dialogId);
 
     if (data) {
-      modalRef.current.setModalData(data[0].title, data[0].message);
+      modalRef.current.setModalData(
+        data[0].title,
+        alternate.length > 0 ? alternate : data[0].message
+      );
       modalRef.current.showDialog();
     }
   };
 
   useEffect(() => {
-    log("STARTING TUT-O-PEDIA");
+    log("Tutorial", "STARTING TUT-O-PEDIA");
 
-    log("Loading Tutorials");
+    log("Tutorial", "Loading Tutorials");
     loadAllTutorials();
     // eslint-disable-next-line
   }, []);
@@ -110,16 +133,16 @@ const Tutorial = () => {
   const loadAllTutorials = async () => {
     const result: ITutorial[] | null = await getAllTutorialsREST();
 
-    log(`Loaded ${result === null ? 0 : result} Tutorials`, LogLevel.Warning);
+    log(
+      "Tutorial",
+      `Loaded ${result === null ? 0 : result.length} Tutorials`,
+      LogLevel.Warning
+    );
 
     if (result) {
       tutorials.current = result;
     } else {
-      modalRef.current.setModalData(
-        "No Tutorials Retrieved",
-        `Is Server Running ?`
-      );
-      modalRef.current.showDialog();
+      showTutorialDialog(DialogIds.LoadEmpty);
       tutorials.current = [];
     }
 
@@ -133,6 +156,12 @@ const Tutorial = () => {
         (tutorial) => !tutorial.published
       );
 
+      log(
+        "Tutorial",
+        `Exists there NON published Tutorials = ${tutorialList.length > 0}`,
+        LogLevel.Debug
+      );
+
       return tutorialList.length > 0;
     }
 
@@ -141,35 +170,52 @@ const Tutorial = () => {
 
   // DELETE
   const deleteTutorialByIdSilent = (id: number): void => {
+    log("Tutorial", `Delete tutorial = ${id} silent`, LogLevel.Debug);
     const tutorialsList = tutorials.current!.filter((item) => item.id !== id);
 
     tutorials.current = tutorialsList;
   };
 
-  const deleteTutorialById = async (id: number): Promise<void> => {
+  const deleteTutorialById = async (id: number): Promise<boolean> => {
+    log("Tutorial", `Delete tutorial = ${id}`);
     let result: boolean = await deleteTutorialByIdREST(id);
+    log("Tutorial", `Delete tutorial result = ${result}`, LogLevel.Debug);
 
     if (result) {
       deleteTutorialByIdSilent(id);
     }
 
     changeView(Views.All);
+
+    return result;
   };
 
   const deleteAllTutorialsInView = async (): Promise<void> => {
-    let result: boolean = await deleteAllTutorialsREST();
+    log("Tutorial", `Delete all displayed tutorials`, LogLevel.Debug);
 
+    let tutorialIds: (number | undefined)[] = paginatedTutorials
+      .current!.filter((t) => !t.published)
+      .map((tutorial) => {
+        if (!tutorial.published) {
+          return tutorial.id;
+        }
+
+        return undefined;
+      });
+
+    let result = await deleteTutorialsByIdsREST(tutorialIds);
     if (result) {
-      const tutorialsToDelete = viewTutorials!.filter(
-        (tutorial) => !tutorial.published
-      );
-
-      for (let tutorial of tutorialsToDelete) {
-        deleteTutorialByIdSilent(tutorial.id!);
+      for (let id of tutorialIds) {
+        deleteTutorialByIdSilent(id!);
       }
     }
 
     if (!searchTutorialId.current) {
+      log(
+        "Tutorial",
+        `Set current search tutorial to ${searchTutorialId.current}`,
+        LogLevel.Debug
+      );
       const searchedTutorials = tutorials.current!.filter(
         (tutorial) => tutorial.id === searchTutorialId.current
       );
@@ -183,6 +229,7 @@ const Tutorial = () => {
 
   // PUBLISH
   const publishTutorialByIdSilent = (id: number): void => {
+    log("Tutorial", `Publish tutorial = ${id} silent`, LogLevel.Debug);
     const tutorialsList = tutorials.current!.map((obj) =>
       obj.id === id ? { ...obj, published: true } : obj
     );
@@ -190,26 +237,38 @@ const Tutorial = () => {
     tutorials.current = tutorialsList;
   };
 
-  const publishTutorialById = async (id: number): Promise<void> => {
+  const publishTutorialById = async (id: number): Promise<boolean> => {
+    log("Tutorial", `Publish tutorial ${id}`);
     let result: boolean = await publishTutorialByIdREST(id);
+    log("Tutorial", `Publish tutorial result = ${result}`, LogLevel.Debug);
 
     if (result) {
       publishTutorialByIdSilent(id);
     }
 
-    changeView(Views.AllPub);
+    changeView(Views.All);
+    return result;
   };
 
   const publishAllTutorialsInView = async (): Promise<void> => {
-    let result: boolean = await publishAllTutorialsREST();
+    log("Tutorial", `Publish all tutorials in View`);
 
+    let tutorialIds: (number | undefined)[] = paginatedTutorials
+      .current!.filter((t) => !t.published)
+      .map((tutorial) => {
+        if (!tutorial.published) {
+          return tutorial.id;
+        }
+
+        return undefined;
+      });
+
+    log("Tutorial", `Publish all tutorials with IDS ${tutorialIds}`);
+
+    let result = await publishTutorialsByIdsREST(tutorialIds);
     if (result) {
-      const tutorialsToPublish = viewTutorials!.filter(
-        (tutorial) => !tutorial.published
-      );
-
-      for (let tutorial of tutorialsToPublish) {
-        publishTutorialByIdSilent(tutorial.id!);
+      for (let id of tutorialIds) {
+        publishTutorialByIdSilent(id!);
       }
     }
 
@@ -221,26 +280,30 @@ const Tutorial = () => {
     description: string,
     keywords: IKeyword[]
   ): boolean => {
+    log("Tutorial", `Contains ${title}`);
+    log("Tutorial", `Or ${description}`);
+    log("Tutorial", `Any Of ${JSON.stringify(keywords)}`);
     let results = keywords.filter(
       (keyword) =>
         title.includes(keyword.content) || description.includes(keyword.content)
     );
+
+    log("Tutorial", `${results.length}`);
 
     return results.length > 0;
   };
 
   // FIND
   const findTutorialById = (id: String): void => {
+    log("Tutorial", `Find tutorial by ${id}`);
     const tutorialsList = tutorials.current!.filter((tutorial) => {
       return tutorial.id!.toString().trim().includes(id.valueOf());
     });
 
+    log("Tutorial", `Found tutorial by ${id} = ${tutorialsList.length > 0}`);
+
     if (tutorialsList.length === 0) {
-      modalRef.current.setModalData(
-        "Tutorial Not Found",
-        `Tutorial With ID = ${id} Not Found`
-      );
-      modalRef.current.showDialog();
+      showTutorialDialog(DialogIds.NotFound, `Tutorial with ${id} Not Found`);
       changeView(Views.All);
     } else {
       searchTutorialId.current = id;
@@ -249,23 +312,29 @@ const Tutorial = () => {
   };
 
   const findByTutorialsByKeywords = (keywords: IKeyword[]): void => {
+    log("Tutorial", `Find tutorials by keyword = ${JSON.stringify(keywords)}`);
     const tutorialsFound = tutorials.current!.filter((tutorial) =>
       containsKeywords(tutorial.title, tutorial.description, keywords)
+    );
+
+    log(
+      "Tutorial",
+      `Found tutorials by keyword = ${tutorialsFound.length > 0}`
     );
 
     if (tutorialsFound.length > 0) {
       setViewTutorials(tutorialsFound);
       changeView(Views.Multi);
     } else {
+      log("Tutorial", `No Turorials found with keywords`, LogLevel.Warning);
       const nrOfKeywords = keywords.length;
 
-      modalRef.current.setModalData(
-        "Tutorial Not Found",
+      showTutorialDialog(
+        DialogIds.NotFound,
         `No Tutorials Found With ${
           nrOfKeywords === 1 ? "That Keyword" : "Those Keywords"
         }`
       );
-      modalRef.current.showDialog();
       changeView(Views.All);
     }
 
@@ -277,6 +346,7 @@ const Tutorial = () => {
     values: ICreateFormValue,
     file: File
   ): Promise<void> => {
+    log("Tutorial", `Update tutorial ${JSON.stringify(values)}`);
     const tutorialsToUpdate = tutorials.current!.map((item) =>
       item.id === values.id
         ? {
@@ -293,11 +363,14 @@ const Tutorial = () => {
       (tutorial) => tutorial.id === values.id
     );
 
+    log("Tutorial", `Updating tutorial ${JSON.stringify(updatingTutorial)}`);
     let result: boolean = await updateTutorialREST(updatingTutorial, file);
+    log("Tutorial", `Updating tutorial result = ${result}`);
 
     if (result) {
       tutorials.current = tutorialsToUpdate;
 
+      log("Tutorial", `Set search id to ${values.id}`);
       searchTutorialId.current = values.id;
 
       changeView(Views.Search);
@@ -311,15 +384,15 @@ const Tutorial = () => {
     values: ICreateFormValue,
     file: File
   ): Promise<void> => {
+    log("Tutorial", `Create tutorial ${JSON.stringify(values)}`);
     if (
       tutorials.current!.filter((tutorial) => tutorial.title === values.title)
         .length > 0
     ) {
-      modalRef.current.setModalData(
-        "Duplicate Tutorial",
+      showTutorialDialog(
+        DialogIds.Duplicate,
         `Tutorial With Same Name Already Exists "${values.title}"`
       );
-      modalRef.current.showDialog();
       return;
     }
 
@@ -330,12 +403,14 @@ const Tutorial = () => {
       filename: values.filename,
       published: false,
     };
+    log("Tutorial", `Persist tutorial ${JSON.stringify(tutorialToPersist)}`);
 
     const newTutorialId = await createTutorialWithFileREST(
       tutorialToPersist,
       file
     );
 
+    log("Tutorial", `Persist tutorial result = ${newTutorialId != null}`);
     if (newTutorialId != null) {
       const newTutorialsList = [
         ...tutorials.current!,
@@ -389,6 +464,7 @@ const Tutorial = () => {
                 deleteTutorialById={deleteTutorialById}
                 publishTutorialById={publishTutorialById}
                 selectTutorialForUpdate={selectTutorialForUpdate}
+                setPaginatedTutorials={setPaginatedTutorials}
                 navigateToPage={navigateToPage}
               />
             }

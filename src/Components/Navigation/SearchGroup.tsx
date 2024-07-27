@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { Col, InputGroup } from "react-bootstrap";
 import { FaIdCardClip } from "react-icons/fa6";
+import { log } from "../../Logging/Logger";
+import LogLevel from "../../enum/LogLevel";
 
 const SearchGroup = ({
   disabled,
@@ -11,6 +13,14 @@ const SearchGroup = ({
   searchTutorialId: number | null;
   findTutorialById(id: string): void;
 }) => {
+  log(
+    "SearchGroup",
+    `SearchTutorialId = ${
+      searchTutorialId ? searchTutorialId.toString() : ""
+    }, disabled = ${disabled}`,
+    LogLevel.Debug
+  );
+
   const searchedId = useRef<String | null>(
     searchTutorialId ? searchTutorialId.toString() : ""
   );
@@ -34,6 +44,7 @@ const SearchGroup = ({
     e.preventDefault();
 
     searchedId.current = e.target.value.trim();
+    log("SearchGroup", `SearchedId = ${searchedId.current}`, LogLevel.Debug);
     if (searchedId.current) {
       findTutorialById(searchedId.current.toString());
     }
