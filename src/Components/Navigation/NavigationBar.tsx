@@ -86,35 +86,3 @@ const NavigationBar = ({
 };
 
 export default NavigationBar;
-
-// const NavigationBar = () => {
-//   return (
-//     <>
-//       <header>
-//         <Container fluid>
-//           <Row>
-//             <NavigationGroup pages={[Pages.Home, Pages.Create, Pages.Find]} />
-//           </Row>
-//         </Container>
-//       </header>
-
-//       {/* <nav>
-//         <ul>
-//           <li>
-//             <Link to="/">Home</Link>
-//           </li>
-//           <li>
-//             <Link to="/create">Create</Link>
-//           </li>
-//           <li>
-//             <Link to="/find">Find</Link>
-//           </li>
-//         </ul>
-//       </nav> */}
-
-//       <Outlet />
-//     </>
-//   );
-// };
-
-// export default NavigationBar;
