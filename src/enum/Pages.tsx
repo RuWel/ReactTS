@@ -3,6 +3,7 @@ const Pages = {
   Create: "Create",
   Update: "Update",
   Find: "Find",
+  Aws: "AWS",
 };
 
 export default Pages;

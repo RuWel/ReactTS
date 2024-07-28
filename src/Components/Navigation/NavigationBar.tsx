@@ -50,7 +50,7 @@ const NavigationBar = ({
       <Container fluid>
         <Row>
           <NavigationGroup
-            pages={[Pages.Home, Pages.Create, Pages.Find]}
+            pages={[Pages.Home, Pages.Create, Pages.Find, Pages.Aws]}
             currentPage={currentPage}
             navigateToPage={navigateToPage}
           />

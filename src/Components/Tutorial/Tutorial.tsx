@@ -24,6 +24,7 @@ import {
   publishTutorialsByIdsREST,
   updateTutorialREST,
 } from "../../Services/RestService";
+import AWS from "./AWS/Aws";
 
 const Tutorial = () => {
   const navigate = useNavigate();
@@ -495,6 +496,8 @@ const Tutorial = () => {
               />
             }
           />
+
+          <Route path="aws" element={<AWS />} />
 
           <Route path="*" element={<Navigate replace to="/" />} />
         </Route>

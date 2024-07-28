@@ -31,7 +31,7 @@ const ActionGroup = ({
   };
 
   return (
-    <Col md={4} className="p-1">
+    <Col md={3} className="p-1">
       <ButtonGroup className="float-end">
         {actions.map((action) => (
           <ActionButton

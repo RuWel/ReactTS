@@ -1,8 +1,7 @@
 {
-  "activeServer": true,
+  "activeServer": false,
   "Heartbeat": {
-    "timeout": 5000,
-    "message": "checking for server"
+    "timeout": 5000
   },
   "Server": {
     "URL": "ws://localhost:8080/ticker"
@@ -16,5 +15,6 @@
   "Logging": {
     "active": true,
     "timeout": 5000
-  }
+  },
+  "AWS": {}
 }
