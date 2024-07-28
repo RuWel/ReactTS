@@ -3,7 +3,7 @@ import React from "react";
 import { Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-import { FaPlusSquare } from "react-icons/fa";
+import { FaAws, FaPlusSquare } from "react-icons/fa";
 import { FaHouse, FaMagnifyingGlassArrowRight } from "react-icons/fa6";
 
 import { log } from "../../Logging/Logger";
@@ -47,7 +47,8 @@ const NavigationButton = ({
         {page === Pages.Home ? <FaHouse /> : <></>}
         {page === Pages.Create ? <FaPlusSquare /> : <></>}
         {page === Pages.Find ? <FaMagnifyingGlassArrowRight /> : <></>}
-
+        {page === Pages.Aws ? <FaAws /> : <></>}
+        &nbsp;
         {page}
       </label>
     </Col>
