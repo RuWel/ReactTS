@@ -1,13 +1,15 @@
 import React from "react";
+
 import { Col } from "react-bootstrap";
-import Pages from "../../enum/Pages";
 import { Link } from "react-router-dom";
 
 import { FaPlusSquare } from "react-icons/fa";
 import { FaHouse, FaMagnifyingGlassArrowRight } from "react-icons/fa6";
 
 import { log } from "../../Logging/Logger";
+
 import LogLevel from "../../enum/LogLevel";
+import Pages from "../../enum/Pages";
 
 const NavigationButton = ({
   page,

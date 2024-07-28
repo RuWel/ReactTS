@@ -1,14 +1,20 @@
 // HOME page
 import React, { useEffect, useRef, useState } from "react";
-
 import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
+
 import NavigationBar from "../Navigation/NavigationBar";
 import TutorialList from "./TutorialList";
 import CreateTutorial from "./Creation/CreateTutorial";
 import FindTutorial from "./Find/FindTutorial";
+import ModalDialog from "../Dialog/ModalDialog";
+
+import { log } from "../../Logging/Logger";
+
 import Views from "../../enum/Views";
 import Pages from "../../enum/Pages";
-import ModalDialog from "../Dialog/ModalDialog";
+import LogLevel from "../../enum/LogLevel";
+import { DialogIds, dialogInfo } from "../../enum/Dialogs";
+
 import {
   createTutorialWithFileREST,
   deleteTutorialByIdREST,
@@ -18,9 +24,6 @@ import {
   publishTutorialsByIdsREST,
   updateTutorialREST,
 } from "../../Services/RestService";
-import { log } from "../../Logging/Logger";
-import LogLevel from "../../enum/LogLevel";
-import { DialogIds, dialogInfo } from "../../enum/Dialogs";
 
 const Tutorial = () => {
   const navigate = useNavigate();
@@ -115,6 +118,7 @@ const Tutorial = () => {
 
     if (data) {
       modalRef.current.setModalData(
+        data[0].id,
         data[0].title,
         alternate.length > 0 ? alternate : data[0].message
       );

@@ -1,6 +1,9 @@
 import React from "react";
+
 import { Button } from "react-bootstrap";
+
 import { log } from "../../Logging/Logger";
+
 import LogLevel from "../../enum/LogLevel";
 
 const DisplayButton = ({

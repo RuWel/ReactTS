@@ -1,5 +1,7 @@
 import React from "react";
+
 import { ButtonGroup, Col } from "react-bootstrap";
+
 import DisplayButton from "./DisplayButton";
 
 const DisplayGroup = ({

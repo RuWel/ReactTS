@@ -1,7 +1,10 @@
 import React, { useEffect, useRef } from "react";
+
 import { Col, InputGroup } from "react-bootstrap";
 import { FaIdCardClip } from "react-icons/fa6";
+
 import { log } from "../../Logging/Logger";
+
 import LogLevel from "../../enum/LogLevel";
 
 const SearchGroup = ({

@@ -1,9 +1,13 @@
 import React from "react";
-import Actions from "../../enum/Actions";
+
 import { ButtonGroup, Col } from "react-bootstrap";
+
 import ActionButton from "./ActionButton";
+
 import { log } from "../../Logging/Logger";
+
 import LogLevel from "../../enum/LogLevel";
+import Actions from "../../enum/Actions";
 
 const ActionGroup = ({
   actions,

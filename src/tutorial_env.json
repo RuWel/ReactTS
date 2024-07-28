@@ -1,5 +1,5 @@
 {
-  "activeServer": false,
+  "activeServer": true,
   "Heartbeat": {
     "timeout": 5000,
     "message": "checking for server"

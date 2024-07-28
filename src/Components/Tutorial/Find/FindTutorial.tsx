@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+
 import { Badge, Button, InputGroup } from "react-bootstrap";
 import { FaTrashAlt } from "react-icons/fa";
-import Pages from "../../../enum/Pages";
+
 import { log } from "../../../Logging/Logger";
+
 import LogLevel from "../../../enum/LogLevel";
+import Pages from "../../../enum/Pages";
 
 const FindTutorial = ({
   navigateToPage,

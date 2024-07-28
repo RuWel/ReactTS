@@ -1,17 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Col, Container, Navbar, NavbarBrand, Row } from "react-bootstrap";
+import { FaBookOpen } from "react-icons/fa";
 
 import MediaIcon from "./MediaIcon";
 
-import { FaBookOpen } from "react-icons/fa";
-
-import facebookIcon from "../assets/icons8-facebook.svg";
-import gmailIcon from "../assets/icons8-gmail.svg";
-import instagramIcon from "../assets/icons8-instagram.svg";
-import linkedinIcon from "../assets/icons8-linkedin.svg";
-import messengerIcon from "../assets/icons8-messenger.svg";
-import twitterIcon from "../assets/icons8-twitterx.svg";
+import facebookIcon from "../assets/facebook.svg";
+import gmailIcon from "../assets/gmail.svg";
+import instagramIcon from "../assets/instagram.svg";
+import linkedinIcon from "../assets/linkedin.svg";
+import messengerIcon from "../assets/messenger.svg";
+import twitterIcon from "../assets/twitterx.svg";
 
 const TitleBar = () => {
   const [media, setMedia] = useState<any>([]);

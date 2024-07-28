@@ -1,10 +1,10 @@
 import axios from "axios";
 
-import configData from "../../tutorial_env.json";
-
 import dummyData from "./DummyData/DummyData";
 import { log, Logger } from "../../Logging/Logger";
 import LogLevel from "../../enum/LogLevel";
+
+import configData from "../../tutorial_env.json";
 
 const useServer = true;
 

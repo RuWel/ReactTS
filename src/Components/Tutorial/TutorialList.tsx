@@ -1,10 +1,14 @@
 import React, { useState } from "react";
+
 import { ButtonGroup, Card, Col, FormSelect, Row } from "react-bootstrap";
 import { IconContext } from "react-icons";
 import { AiFillLeftCircle, AiFillRightCircle } from "react-icons/ai";
-import TutorialDetail from "./TutorialDetail";
 import ReactPaginate from "react-paginate";
+
+import TutorialDetail from "./TutorialDetail";
+
 import { log } from "../../Logging/Logger";
+
 import LogLevel from "../../enum/LogLevel";
 
 const TutorialList = ({

@@ -1,4 +1,5 @@
 import React from "react";
+
 import {
   Badge,
   ButtonGroup,
@@ -16,8 +17,10 @@ import {
   FaPenFancy,
   FaTrashAlt,
 } from "react-icons/fa";
+
 import Pages from "../../enum/Pages";
 import LogLevel from "../../enum/LogLevel";
+
 import { log } from "../../Logging/Logger";
 
 const TutorialDetail = ({

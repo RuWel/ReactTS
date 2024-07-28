@@ -1,15 +1,19 @@
 import React from "react";
+
 import { Container, Row } from "react-bootstrap";
 import { Outlet } from "react-router-dom";
+
 import NavigationGroup from "./NavigationGroup";
-import Pages from "../../enum/Pages";
-import Views from "../../enum/Views";
 import DisplayGroup from "./DisplayGroup";
 import SearchGroup from "./SearchGroup";
 import Actions from "../../enum/Actions";
 import ActionGroup from "./ActionGroup";
+
 import { log } from "../../Logging/Logger";
+
 import LogLevel from "../../enum/LogLevel";
+import Pages from "../../enum/Pages";
+import Views from "../../enum/Views";
 
 const NavigationBar = ({
   tutorials,
