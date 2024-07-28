@@ -58,18 +58,12 @@ const NavigationBar = ({
           <DisplayGroup
             views={[Views.AllPub, Views.NonPub, Views.All]}
             currentView={currentView}
-            disabled={
-              currentPage === Pages.Create || currentPage === Pages.Find
-            }
+            disabled={currentPage != Pages.Home}
             handleChangeView={handleChangeView}
           />
 
           <SearchGroup
-            disabled={
-              tutorials.length === 0 ||
-              currentPage === Pages.Create ||
-              currentPage === Pages.Find
-            }
+            disabled={tutorials.length === 0 || currentPage != Pages.Home}
             searchTutorialId={searchTutorialId}
             findTutorialById={findTutorialById}
           />
