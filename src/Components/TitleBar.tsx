@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
 
-import { Col, Container, Navbar, NavbarBrand, Row } from "react-bootstrap";
-import { FaBookOpen } from "react-icons/fa";
+import {
+  Badge,
+  Button,
+  Col,
+  Container,
+  Navbar,
+  NavbarBrand,
+  Row,
+} from "react-bootstrap";
+import { FaBell, FaBookOpen } from "react-icons/fa";
 
 import MediaIcon from "./MediaIcon";
 
@@ -58,16 +66,18 @@ const TitleBar = () => {
 
   const showMedia = () => {
     return (
-      <span id="icons">
-        {media.map((mediaitem: any) => (
-          <MediaIcon
-            name={mediaitem.name}
-            url={mediaitem.url}
-            icon={mediaitem.icon}
-            key={mediaitem.id}
-          />
-        ))}
-      </span>
+      <>
+        <span id="icons">
+          {media.map((mediaitem: any) => (
+            <MediaIcon
+              name={mediaitem.name}
+              url={mediaitem.url}
+              icon={mediaitem.icon}
+              key={mediaitem.id}
+            />
+          ))}
+        </span>
+      </>
     );
   };
 

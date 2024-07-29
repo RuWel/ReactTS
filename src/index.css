@@ -54,3 +54,24 @@ footer {
 .formik {
   color: bisque;
 }
+
+.sidebar {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  margin-left: 5px;
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+  width: 190px;
+  height: 130px;
+  z-index: 600;
+}
+
+.sidebar .active {
+  border-radius: 5px;
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+}
+
+.sidebar .position-sticky {
+  top: 0;
+  height: calc(100vh - 20px);
+}

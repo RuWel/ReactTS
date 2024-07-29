@@ -1,11 +1,11 @@
 import React from "react";
 
-const AWS = () => {
+const IAM = () => {
   return (
     <div>
-      <h1>AWS</h1>
+      <h1>IAM</h1>
     </div>
   );
 };
 
-export default AWS;
+export default IAM;

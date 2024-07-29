@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import dummyData from "./DummyData/DummyData";
-import { log, Logger } from "../../Logging/Logger";
+import { log } from "../../Logging/Logger";
 import LogLevel from "../../enum/LogLevel";
 
 import configData from "../../tutorial_env.json";

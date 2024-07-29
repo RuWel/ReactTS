@@ -1,7 +1,6 @@
 import React from "react";
 
 import { Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
 
 import { FaAws, FaPlusSquare } from "react-icons/fa";
 import { FaHouse, FaMagnifyingGlassArrowRight } from "react-icons/fa6";

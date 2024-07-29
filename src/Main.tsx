@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useRef, useState } from "react";
 
 import { Container } from "react-bootstrap";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 
 import Header from "./Layout/Header";
 import Footer from "./Layout/Footer";
@@ -78,20 +78,9 @@ const Main = () => {
         notify={notify}
       />
       <Header />
-      <BrowserRouter>{serverConnected && <Tutorial />}</BrowserRouter>
+      <Router>{serverConnected && <Tutorial />}</Router>
       <Footer />
     </Container>
-    // <>
-    //   <ModalDialog ref={mainRef} />
-    //     active={configData.activeServer}
-    //     timeout={configData.Heartbeat.timeout}
-    //     URL={configData.Server.URL}
-    //     notify={notify}
-    //   />
-    //   <Header />
-    //   {serverConnected && <Tutorial />}
-    //   <Footer />
-    // </>
   );
 };
 
