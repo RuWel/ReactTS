@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { FaListAlt, FaPersonBooth } from "react-icons/fa";
-import { FaBucket } from "react-icons/fa6";
-import AWSNavigationButton from "../Navigation/AWS/AWSNavigationButton";
 import AWSNavigationGroup from "../Navigation/AWS/AWSNavigationGroup";
 import AWSPages from "../../enum/AWSPages";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -23,22 +20,8 @@ const AWS = () => {
 
   useEffect(() => {
     navigate("iam");
+    // eslint-disable-next-line
   }, []);
-
-  const handleIAM = () => {
-    console.log("IAM Clicked");
-    navigate("iam");
-  };
-
-  const handleS3 = () => {
-    console.log("S3 Clicked");
-    navigate("s3");
-  };
-
-  const handleTutorials = () => {
-    console.log("Tutorials Clicked");
-    navigate("tutorials");
-  };
 
   return (
     <>

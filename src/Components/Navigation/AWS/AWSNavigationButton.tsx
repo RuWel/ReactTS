@@ -3,7 +3,6 @@ import { FaListAlt, FaPersonBooth } from "react-icons/fa";
 import AWSPages from "../../../enum/AWSPages";
 import { FaBucket } from "react-icons/fa6";
 import { log } from "../../../Logging/Logger";
-import LogLevel from "../../../enum/LogLevel";
 
 const AWSNavigationButton = ({
   page,

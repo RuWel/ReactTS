@@ -1,15 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import {
-  Badge,
-  Button,
-  Col,
-  Container,
-  Navbar,
-  NavbarBrand,
-  Row,
-} from "react-bootstrap";
-import { FaBell, FaBookOpen } from "react-icons/fa";
+import { Col, Container, Navbar, NavbarBrand, Row } from "react-bootstrap";
+import { FaBookOpen } from "react-icons/fa";
 
 import MediaIcon from "./MediaIcon";
 
