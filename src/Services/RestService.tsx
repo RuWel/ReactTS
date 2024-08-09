@@ -9,7 +9,7 @@ import {
   publishTutorialsByIds,
   updateTutorial,
   updateTutorialWithFile,
-} from "./Api/Api";
+} from "./Api/ApiDummy";
 
 const getAllTutorialsREST = async (): Promise<ITutorial[] | null> => {
   const response: ITutorial[] | null = await getAllTutorials();

@@ -19,7 +19,8 @@ import { DialogIds, dialogInfo } from "./enum/Dialogs";
 
 const Main = () => {
   const mainRef = useRef<any>();
-  const [serverConnected, setServerConnected] = useState(false);
+  // const [serverConnected, setServerConnected] = useState(false);
+  const [serverConnected, setServerConnected] = useState(true);
 
   useEffect(() => {
     if (configData.activeServer) {
@@ -71,12 +72,12 @@ const Main = () => {
         timeout={configData.Logging.timeout}
       />
       <ModalDialog ref={mainRef} />
-      <HeartBeat
+      {/* <HeartBeat
         active={configData.activeServer}
         timeout={configData.Heartbeat.timeout}
         URL={configData.Server.URL}
         notify={notify}
-      />
+      /> */}
       <Header />
       <Router>{serverConnected && <Tutorial />}</Router>
       <Footer />
