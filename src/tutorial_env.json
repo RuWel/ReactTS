@@ -1,7 +1,7 @@
 {
-  "activeServer": false,
+  "activeServer": true,
   "Heartbeat": {
-    "timeout": 5000
+    "timeout": 1000
   },
   "Server": {
     "URL": "ws://localhost:8080/ticker"
@@ -13,7 +13,7 @@
     "prefix": "api"
   },
   "Logging": {
-    "active": true,
+    "active": false,
     "timeout": 5000
   },
   "AWS": {}

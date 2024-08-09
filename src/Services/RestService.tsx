@@ -1,15 +1,17 @@
+import {} from "./Api/ApiDummy";
+
 import {
   createTutorial,
   deleteAllTutorials,
   deleteTutorialById,
   deleteTutorialsByIds,
-  getAllTutorials,
   publishAllTutorials,
   publishTutorialById,
   publishTutorialsByIds,
   updateTutorial,
   updateTutorialWithFile,
-} from "./Api/ApiDummy";
+  getAllTutorials,
+} from "./Api/Api";
 
 const getAllTutorialsREST = async (): Promise<ITutorial[] | null> => {
   const response: ITutorial[] | null = await getAllTutorials();
